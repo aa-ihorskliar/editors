@@ -34,7 +34,7 @@ const content = `
 
 function App() {
   const [editor, setEditor] = useState<"tiptap" | "lexical" | "plate" | "cke">(
-    "tiptap",
+    "cke",
   );
 
   return (
