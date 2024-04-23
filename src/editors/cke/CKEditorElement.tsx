@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Profiler } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
@@ -6,8 +6,14 @@ const config = {};
 
 export default function CKEditorElement({ content }: { content: string }) {
   return (
-    <div className="App">
-      <h2>Using CKEditor&nbsp;5 build in React</h2>
+    <Profiler
+      onRender={(id, phase, actualDuration) => {
+        console.log(
+          `The ${id} render took ` + `${actualDuration}ms to render (${phase})`,
+        );
+      }}
+      id="CKEditor"
+    >
       <CKEditor
         config={config}
         editor={ClassicEditor}
@@ -26,6 +32,6 @@ export default function CKEditorElement({ content }: { content: string }) {
           console.log("Focus.", editor);
         }}
       />
-    </div>
+    </Profiler>
   );
 }

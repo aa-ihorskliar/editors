@@ -4,6 +4,7 @@ import Highlight from "@tiptap/extension-highlight";
 import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
+import { Profiler } from "react";
 
 // define your extension array
 const extensions = [StarterKit];
@@ -159,10 +160,17 @@ const TipTap = ({ content }: { content: string }) => {
   });
 
   return (
-    <div>
+    <Profiler
+      onRender={(id, phase, actualDuration) => {
+        console.log(
+          `The ${id} render took ` + `${actualDuration}ms to render (${phase})`,
+        );
+      }}
+      id="TipTap"
+    >
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
-    </div>
+    </Profiler>
   );
 };
 

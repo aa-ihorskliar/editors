@@ -170,7 +170,7 @@ import { withPlaceholders } from "./components/placeholder";
 import { withDraggables } from "./components/with-draggables";
 import { EmojiCombobox } from "./components/emoji-combobox";
 import { TooltipProvider } from "./components/tooltip";
-import { useMemo } from "react";
+import React, { useMemo, Profiler } from "react";
 import { ListElement } from "./components/list-element";
 
 export const plugins = createPlugins(
@@ -412,28 +412,37 @@ export default function PlateEditor({ content }: { content: string }) {
   }, [content]);
 
   return (
-    <TooltipProvider>
-      <DndProvider backend={HTML5Backend}>
-        <CommentsProvider users={{}} myUserId="1">
-          <Plate
-            plugins={plugins}
-            initialValue={initialValue}
-            normalizeInitialValue
-          >
-            <FixedToolbar>
-              <FixedToolbarButtons />
-            </FixedToolbar>
+    <Profiler
+      onRender={(id, phase, actualDuration) => {
+        console.log(
+          `The ${id} render took ` + `${actualDuration}ms to render (${phase})`,
+        );
+      }}
+      id="Plate"
+    >
+      <TooltipProvider>
+        <DndProvider backend={HTML5Backend}>
+          <CommentsProvider users={{}} myUserId="1">
+            <Plate
+              plugins={plugins}
+              initialValue={initialValue}
+              normalizeInitialValue
+            >
+              <FixedToolbar>
+                <FixedToolbarButtons />
+              </FixedToolbar>
 
-            <Editor />
+              <Editor />
 
-            <FloatingToolbar>
-              <FloatingToolbarButtons />
-            </FloatingToolbar>
-            <MentionCombobox items={[]} />
-            <CommentsPopover />
-          </Plate>
-        </CommentsProvider>
-      </DndProvider>
-    </TooltipProvider>
+              <FloatingToolbar>
+                <FloatingToolbarButtons />
+              </FloatingToolbar>
+              <MentionCombobox items={[]} />
+              <CommentsPopover />
+            </Plate>
+          </CommentsProvider>
+        </DndProvider>
+      </TooltipProvider>
+    </Profiler>
   );
 }
