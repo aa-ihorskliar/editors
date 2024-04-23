@@ -21,6 +21,10 @@ export default function CKEditorElement({ content }: { content: string }) {
         onReady={(editor) => {
           // You can store the "editor" and use when it is needed.
           console.log("Editor is ready to use!", editor);
+
+          editor.model.document.on("change:data", () => {
+            console.log("Change", editor.getData());
+          });
         }}
         onChange={(event) => {
           console.log(event);
