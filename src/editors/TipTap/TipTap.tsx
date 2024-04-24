@@ -146,6 +146,7 @@ const TipTap = ({ content }: { content: string }) => {
       Highlight,
       Image.configure({
         inline: true,
+        allowBase64: true,
       }),
       Link.configure({
         openOnClick: false,
